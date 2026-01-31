@@ -44,6 +44,8 @@ function startGame() {
     let newBoard = createBoard();
     let newGame = createGame(newBoard.board);
 
+    displayBoard(newBoard);
+
     let playerOneName = prompt('Player 1: Enter your name');
     let playerTwoName = prompt('Player 2: Enter your name');
 
@@ -59,7 +61,6 @@ function startGame() {
             let input = prompt('Player 1: Enter your mark coordinates for X. For example: "0,0"');
             let coordinates = input.split(',');
             newBoard.markBoard(coordinates[0], coordinates[1], playerOne.mark);
-            console.log(newBoard.board)
             didXWin = newGame('X');
             playerTurn = !playerTurn;
         }
@@ -67,7 +68,6 @@ function startGame() {
             let input = prompt('Player 2: Enter your mark coordinates for O. For example: "0,0"');
             let coordinates = input.split(',');
             newBoard.markBoard(coordinates[0], coordinates[1], playerTwo.mark);
-            console.log(newBoard.board)
             didOWin = newGame('O');
             playerTurn = !playerTurn;
         }
@@ -75,10 +75,43 @@ function startGame() {
     }
     if (didXWin) {
         alert('Congratulations ' + playerOne.name + '!')
+        let initialBoard = document.querySelector('.board')
+        console.log(initialBoard)
+        initialBoard.remove();
+        displayBoard(newBoard);
     }
     else {
         alert('Congratulations ' + playerTwo.name + '!')
+        let initialBoard = document.querySelector('.board')
+        initialBoard.remove();
+        displayBoard(newBoard);
     }
+    return { newBoard, playerOne, playerTwo };
 }
 
-startGame();
+function displayBoard(board) {
+    let containerDiv = document.createElement('div');
+
+    board.board.forEach((item, outerIndex) => {
+        item.forEach((item, innerIndex) => {
+            let tile = document.createElement('h2');
+            tile.textContent = String(item);
+            tile.addEventListener('click', () => {
+                board.markBoard(outerIndex, innerIndex, 'X');
+                tile.textContent = 'X';
+            });
+            containerDiv.appendChild(tile);
+        });
+    });
+    containerDiv.classList.add('board');
+    document.body.appendChild(containerDiv);
+}
+
+let playButton = document.querySelector('.play');
+playButton.addEventListener('click', () => {
+    let game = startGame();
+    let playerOne = document.querySelector('.players .player-one');
+    let playerTwo = document.querySelector('.players .player-two');
+    playerOne.textContent = game.playerOne.name;
+    playerTwo.textContent = game.playerTwo.name;
+})

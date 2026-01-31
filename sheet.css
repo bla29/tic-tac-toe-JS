@@ -1,0 +1,32 @@
+.board {
+    color: black;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.play {
+    color: blue;
+}
+
+.player-one {
+    color: blue;
+}
+
+.player-two {
+    color: red;
+}
+
+.play-button {
+    justify-self: center;
+}
